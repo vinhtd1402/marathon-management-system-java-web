@@ -1,0 +1,30 @@
+# Ignore NetBeans build and dist folders
+/build/
+/dist/
+/nbbuild/
+/nbproject/private/
+/nbproject/retriever/
+/nbproject/private/retriever/
+
+# Ignore test build outputs
+/test/build/
+/test/dist/
+
+# Ignore compiled files
+*.class
+*.jar
+*.war
+*.ear
+*.db
+
+# Ignore temporary and backup files
+*~
+*.log
+*.properties~
+*.iml
+
+# Ignore IDE and OS metadata
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db

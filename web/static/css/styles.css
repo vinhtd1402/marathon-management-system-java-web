@@ -1,0 +1,190 @@
+/* ===== RESET & BODY ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    /* 🌄 HÌNH NỀN CHO TOÀN BỘ HỆ THỐNG */
+    background-image: url('https://i.pinimg.com/736x/76/b1/89/76b189c0084e43a930de502446b78359.jpg'); /* hoặc link online */
+    background-size: cover;          /* phủ kín toàn màn hình */
+    background-repeat: no-repeat;    /* không lặp lại */
+    background-attachment: fixed;    /* cố định khi cuộn */
+    background-position: center;     /* căn giữa */
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+ .login-container {
+    flex: 1;  /* 🔥 Cực quan trọng để đẩy footer xuống đáy */
+}
+
+/* ===== HEADER ===== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #004aad;
+    color: white;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #ff6600;
+}
+
+/* ===== AUTH BUTTONS ===== */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.auth-buttons a {
+    background: #ff6600;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.auth-buttons a:hover {
+    background: #ff8533;
+}
+
+.logout-btn {
+    background: #e74c3c !important;
+}
+
+.logout-btn:hover {
+    background: #ff6f61 !important;
+}
+
+/* ===== MAIN ===== */
+main {
+    flex: 1;
+    text-align: center;
+    padding: 80px 20px;
+    background: #f9f9f9;
+    min-height: 70vh;
+}
+
+h2 {
+    color: #004aad;
+}
+
+p {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 17px;
+}
+
+.btn {
+    background-color: #004aad;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #ff6600;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+}
+/* ===== EVENT LIST (hiển thị các giải chạy) ===== */
+.event-container {
+    display: flex;
+    flex-wrap: nowrap; /* ❌ Không cho xuống dòng */
+    overflow-x: auto;  /* ✅ Thêm thanh cuộn ngang khi tràn */
+    gap: 25px;
+    margin-top: 40px;
+    padding-bottom: 10px; /* thêm khoảng trống cho scrollbar */
+    scroll-behavior: smooth; /* cuộn mượt */
+}
+
+.event-card {
+    flex: 0 0 300px; /* ✅ Chiều rộng cố định cho từng card */
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.event-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.event-card h4 {
+    color: #004aad;
+    margin: 10px 0 5px;
+}
+
+.event-card p {
+    color: #555;
+    font-size: 15px;
+    margin: 3px 0;
+}
+
+.event-card .btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 14px;
+    font-size: 14px;
+}
+
+/* === Responsive cho màn hình nhỏ === */
+@media screen and (max-width: 1200px) {
+    .event-card { flex: 0 0 calc(33.333% - 25px); } /* 3 card trên 1 dòng */
+}
+
+@media screen and (max-width: 900px) {
+    .event-card { flex: 0 0 calc(50% - 25px); } /* 2 card trên 1 dòng */
+}
+
+@media screen and (max-width: 600px) {
+    .event-card { flex: 0 0 100%; } /* 1 card trên 1 dòng */
+}
