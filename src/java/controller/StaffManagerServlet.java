@@ -46,7 +46,7 @@ public class StaffManagerServlet extends HttpServlet {
             case "delete": {
                 try {
                     int regID = Integer.parseInt(request.getParameter("id"));
-                    dao.deleteRegistration(regID);
+                    dao.deleteRegistrationWithPayment(regID);
                     response.sendRedirect("staffManager?action=list");
                 } catch (Exception e) {
                     e.printStackTrace();

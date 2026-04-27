@@ -53,6 +53,37 @@ public class AccountDAO extends DBContext {
         return account;
     }
 
+public List<Account> getTop3Runners() {
+    List<Account> list = new ArrayList<>();
+    String sql = "SELECT TOP 3 * FROM [Account] WHERE RoleID = 3 ORDER BY TotalDistance DESC";
+
+    try {
+        DBContext db = new DBContext();
+        Connection con = db.connection; // lấy connection từ instance DBContext
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Account a = new Account();
+            a.setuID(rs.getInt("uID"));
+            a.setFullName(rs.getString("FullName"));
+            a.setTotalDistance(rs.getDouble("TotalDistance"));
+            a.setGender(rs.getString("Gender"));
+            list.add(a);
+        }
+
+        rs.close();
+        ps.close();
+        con.close(); // đừng quên đóng connection để tránh leak
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+
+
     // Tạo tài khoản
     public Account CreateAccount(Account account) {
         Account found = GetAccountByUsername(account.username);
@@ -78,6 +109,7 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
+    
 
     // Lấy account theo username
     public Account GetAccountByUsername(String username) {
@@ -205,6 +237,16 @@ public class AccountDAO extends DBContext {
             System.out.println("softDeleteAccount: " + e.getMessage());
         }
     }
+      public void deleteRunner(int id) {
+        try {
+            String sql = "UPDATE Account SET IsDeleted=1 WHERE uID=? AND roleID = 3";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("deleteRunner: " + e.getMessage());
+        }
+    }
 
 public List<Account> searchAccount(String keyword) {
     List<Account> list = new ArrayList<>();
@@ -244,6 +286,92 @@ public List<Account> searchAccount(String keyword) {
     }
     return list;
 }
+public List<Account> getAccountsByRoleId(int roleId) {
+    List<Account> accounts = new ArrayList<>();
+    try {
+        String sql = "SELECT * FROM Account WHERE roleID = ? AND IsDeleted = 0";
+        stm = connection.prepareStatement(sql);
+        stm.setInt(1, roleId);
+        rs = stm.executeQuery();
+        while (rs.next()) {
+            Account a = new Account();
+            a.setuID(rs.getInt("uID"));
+            a.setFullName(rs.getString("fullName"));
+            a.setGender(rs.getString("gender"));
+            a.setUsername(rs.getString("username"));
+            a.setPassword(rs.getString("password"));
+            a.setAge(rs.getInt("age"));
+            a.setHealthStatus(rs.getString("healthStatus"));
+            a.setEmail(rs.getString("email"));
+            a.setPhone(rs.getString("phone"));
+            a.setRoleID(rs.getInt("roleID"));
+            a.setTotalDistance(rs.getDouble("totalDistance"));
+            a.setCreatedAt(rs.getDate("createdAt"));
+            a.setIsDeleted(rs.getBoolean("IsDeleted"));
+            accounts.add(a);
+        }
+    } catch (Exception e) {
+        System.out.println("getAccountsByRoleId: " + e.getMessage());
+    }
+    return accounts;
+}
+
+// Tìm runner theo tên, giới tính, điện thoại hoặc username
+public List<Account> searchRunners(String keyword) {
+    List<Account> list = new ArrayList<>();
+    try {
+        String sql = "SELECT * FROM Account " +
+                     "WHERE roleID = 3 AND IsDeleted = 0 " +
+                     "AND (fullName LIKE ? OR gender LIKE ? OR phone LIKE ? OR username LIKE ?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        String searchPattern = "%" + keyword + "%";
+        stm.setString(1, searchPattern);
+        stm.setString(2, searchPattern);
+        stm.setString(3, searchPattern);
+        stm.setString(4, searchPattern);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            Account a = new Account();
+            a.setuID(rs.getInt("uID"));
+            a.setFullName(rs.getString("fullName"));
+            a.setGender(rs.getString("gender"));
+            a.setUsername(rs.getString("username"));
+            a.setPassword(rs.getString("password"));
+            a.setAge(rs.getInt("age"));
+            a.setHealthStatus(rs.getString("healthStatus"));
+            a.setEmail(rs.getString("email"));
+            a.setPhone(rs.getString("phone"));
+            a.setRoleID(rs.getInt("roleID"));
+            a.setTotalDistance(rs.getDouble("totalDistance"));
+            a.setCreatedAt(rs.getTimestamp("createdAt"));
+            a.setIsDeleted(rs.getBoolean("IsDeleted"));
+            list.add(a);
+        }
+    } catch (Exception e) {
+        System.out.println("searchRunners: " + e.getMessage());
+    }
+    return list;
+}
+ public void updateRunner(Account a) {
+        try {
+            String sql = "UPDATE Account SET fullName=?, gender=?, username=?, password=?, age=?, healthStatus=?, email=?, phone=?, totalDistance=? " +
+                         "WHERE uID=? AND roleID = 3 AND IsDeleted = 0";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, a.getFullName());
+            stm.setString(2, a.getGender());
+            stm.setString(3, a.getUsername());
+            stm.setString(4, a.getPassword());
+            stm.setInt(5, a.getAge());
+            stm.setString(6, a.getHealthStatus());
+            stm.setString(7, a.getEmail());
+            stm.setString(8, a.getPhone());
+            stm.setDouble(9, a.getTotalDistance());
+            stm.setInt(10, a.getuID());
+            stm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("updateRunner: " + e.getMessage());
+        }
+    }
 
 
 }

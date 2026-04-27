@@ -54,22 +54,25 @@
                         <li><a href="list">Quản lý giải chạy</a></li> 
                         </c:if> 
                         <c:if test="${sessionScope.account.roleID == 1 }">
-                        <li><a href="accountManager">Quản lý runner</a></li> 
+                        <li><a href="accountManager">Quản lý Account</a></li> 
                         </c:if>  
-                         <c:if test="${sessionScope.account.roleID == 2 }">
+                        <c:if test="${sessionScope.account.roleID == 2 }">
+                        <li><a href="accountRunner">Quản lý runner</a></li> 
+                        </c:if>  
+                        <c:if test="${sessionScope.account.roleID == 2 }">
                         <li><a href="staffManager">Duyệt đơn</a></li> 
                         </c:if>  
                         <c:if test="${sessionScope.account.roleID == 1 }">
                         <li><a href="staffManager">Duyệt đơn</a></li> 
                         </c:if> 
-                        
-                        
-                        
+
+
+
                 </ul>
             </nav>
             <div class="auth-buttons">
                 <c:if test="${sessionScope.account != null}">
-                    <span>👋 Xin chào, <b>${sessionScope.account.fullName}</b></span>
+                    <a href="infor" > <span>👋 Xin chào, <b>${sessionScope.account.fullName}</b></span></a>
                     <a href="Logout" class="logout-btn">Đăng xuất</a>
                 </c:if>
                 <c:if test="${sessionScope.account == null}">
@@ -105,6 +108,24 @@
             <% } else { %>
             <p>Chưa có giải chạy nào được đăng.</p>
             <% } %>
+            <hr/>
+            <h3>🏆 Vinh danh 3 Runner có tổng quãng đường cao nhất</h3>
+
+            <c:if test="${not empty topRunners}">
+                <div class="event-scroll">
+                    <c:forEach var="r" items="${topRunners}">
+                        <div class="event-card">
+                            <h4>${r.fullName}</h4>
+                            <p>👟 Tổng quãng đường: <b>${r.totalDistance} km</b></p>
+                            <p>🚻 Giới tính: ${r.gender}</p>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:if>
+            <c:if test="${empty topRunners}">
+                <p>Chưa có runner nào được ghi nhận.</p>
+            </c:if>
+
         </main>
 
         <!-- FOOTER -->

@@ -107,7 +107,10 @@
                         <li><a href="list">Quản lý giải chạy</a></li> 
                         </c:if> 
                         <c:if test="${sessionScope.account.roleID == 1 }">
-                        <li><a href="accountManager">Quản lý runner</a></li> 
+                        <li><a href="accountManager">Quản lý Account</a></li> 
+                        </c:if>  
+                        <c:if test="${sessionScope.account.roleID == 2 }">
+                        <li><a href="accountRunner">Quản lý runner</a></li> 
                         </c:if>  
                          <c:if test="${sessionScope.account.roleID == 2 }">
                         <li><a href="staffManager">Duyệt đơn</a></li> 

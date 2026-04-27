@@ -4,16 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-    List<Account> accounts = (List<Account>) request.getAttribute("accounts");
+    List<Account> runnerList = (List<Account>) request.getAttribute("runnerList");
 %>
 
 <!DOCTYPE html>
 <html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <title>👥 Quản lý Tài khoản - Marathon System</title>
-        <link rel="stylesheet" href="/ASS-Marathon/static/css/styles.css" />
-        <style>
+<head>
+    <meta charset="UTF-8">
+    <title>👥 Quản lý Runner - Marathon System</title>
+    <link rel="stylesheet" href="/ASS-Marathon/static/css/styles.css" />
+         <style>
             body {
                 font-family: 'Segoe UI', Arial, sans-serif;
                 background: #f4f6f9;
@@ -148,11 +148,9 @@
                 font-size: 14px;
             }
         </style>
-    </head>
-
-    <body>
-        <!-- HEADER -->
-        <header>
+</head>
+<body>
+  <header>
             <div class="logo">🏃‍♂️ Marathon System</div>
             <nav>
                 <ul>
@@ -160,7 +158,7 @@
                     <li><a href="Events">Các giải</a></li>
                     <li><a href="Comments">Bình luận</a></li>
                     <li><a href="About">Thông tin khác</a></li>
-                           <c:if test="${sessionScope.account.roleID == 1 }">
+                          <c:if test="${sessionScope.account.roleID == 1 }">
                         <li><a href="list">Quản lý giải chạy</a></li> 
                         </c:if>             
                         <c:if test="${sessionScope.account.roleID == 2 }">
@@ -193,68 +191,61 @@
             </div>
         </header>
 
-        <!-- MAIN -->
-        <main>
-            <h2>👥 Quản lý Tài Khoản</h2>
 
-            <div class="top-bar">
-                <form action="${pageContext.request.contextPath}/accountManager?action=search" method="post" style="display: flex; gap: 10px;">
-                    <input type="text" name="search" placeholder="🔍 Tìm kiếm tài khoản..." value="${search != null ? search : ''}" />
-                    <button type="submit">Tìm</button>
-                </form>
-                <a href="${pageContext.request.contextPath}/accountManager?action=add" class="btn btn-primary">+ Thêm tài khoản mới cho staff</a>
-            </div>
+    <main>
+        <h2>👥 Danh sách Runner</h2>
 
-            <table>
+        <div class="top-bar">
+            <form action="searchRunner" method="get" style="display: flex; gap: 10px;">
+                <input type="text" name="search" placeholder="🔍 Tìm kiếm runner..." value="${search != null ? search : ''}" />
+                <button type="submit">Tìm</button>
+            </form>
+                <a href="addRunner" class="btn btn-primary">+ Thêm tài khoản mới cho Runner</a>
+        </div>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Họ tên</th>
+                <th>Giới tính</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Điện thoại</th>
+                <th>Vai trò</th>
+                <th>Tuổi</th>
+                <th>Tình trạng sức khỏe</th>
+                <th>Tổng quãng đường</th>
+                <th>Ngày tạo</th>
+                 <th>Hành động</th>
+            </tr>
+
+            <c:forEach var="a" items="${runnerList}">
                 <tr>
-                    <th>ID</th>
-                    <th>Họ tên</th>
-                    <th>Giới tính</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Điện thoại</th>
-                    <th>Vai trò</th>
-                    <th>Tuổi</th>
-                    <th>Tình trạng sức khỏe</th>
-                    <th>Tổng quãng đường</th>
-                    <th>Ngày tạo</th>
-                    <th>Hành động</th>
-                </tr>
-
-                <c:forEach var="a" items="${accounts}">
-                    <tr>    
-                        <td>${a.uID}</td>
-                        <td>${a.fullName}</td>
-                        <td>${a.gender}</td>
-                        <td>${a.username}</td>
-                        <td>${a.email}</td>
-                        <td>${a.phone}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${a.roleID == 1}">Admin</c:when>
-                                <c:when test="${a.roleID == 2}">Staff</c:when>
-                                 <c:when test="${a.roleID == 3}">Runner</c:when>
-                            </c:choose>
-                        </td>
-                        <td>${a.age}</td>
-                        <td>${a.healthStatus}</td>
-                        <td>${a.totalDistance}</td>
-                        <td>${a.createdAt}</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/accountManager?action=edit&id=${a.uID}" class="btn btn-primary">Sửa</a>
-                            <a href="${pageContext.request.contextPath}/accountManager?action=delete&id=${a.uID}" 
+                    <td>${a.uID}</td>
+                    <td>${a.fullName}</td>
+                    <td>${a.gender}</td>
+                    <td>${a.username}</td>
+                    <td>${a.email}</td>
+                    <td>${a.phone}</td>
+                    <td>Runner</td>
+                    <td>${a.age}</td>
+                    <td>${a.healthStatus}</td>
+                    <td>${a.totalDistance}</td>
+                    <td>${a.createdAt}</td>
+                    <td>
+                            <a href="editRunner?id=${a.uID}" class="btn btn-primary">Sửa</a>
+                            <a href="deleteRunner?id=${a.uID}" 
                                class="btn btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa tài khoản này không?');">Xóa</a>
 
                         </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </main>
-
-        <!-- FOOTER -->
-        <footer>
+                </tr>
+            </c:forEach>
+        </table>
+    </main>
+<footer>
             © 2025 Marathon Management System — Designed by Hung 🏃‍♂️
         </footer>
-    </body>
+    <!-- FOOTER giống cũ -->
+</body>
 </html>

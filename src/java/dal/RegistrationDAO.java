@@ -141,16 +141,57 @@ public class RegistrationDAO extends DBContext {
 
 
     // 🔹 Xóa đơn đăng ký
-    public boolean deleteRegistration(int regID) {
+   // 🔹 Xóa vật lý Registration kèm Payment liên quan
+public boolean deleteRegistrationWithPayment(int regID) {
+    try {
+        connection.setAutoCommit(false); // Bắt đầu transaction
+
+        // 1️⃣ Xóa Payment liên quan
+        String sqlPay = "DELETE FROM Payment WHERE RegID = ?";
+        stm = connection.prepareStatement(sqlPay);
+        stm.setInt(1, regID);
+        stm.executeUpdate();
+
+        // 2️⃣ Xóa Registration
+        String sqlReg = "DELETE FROM Registration WHERE RegID = ?";
+        stm = connection.prepareStatement(sqlReg);
+        stm.setInt(1, regID);
+        stm.executeUpdate();
+
+        connection.commit(); // Commit transaction
+        return true;
+    } catch (Exception e) {
         try {
-            String sql = "DELETE FROM Registration WHERE RegID = ?";
-            stm = connection.prepareStatement(sql);
-            stm.setInt(1, regID);
-            stm.executeUpdate();
-            return true;
-        } catch (Exception e) {
-            System.out.println("deleteRegistration: " + e.getMessage());
+            connection.rollback(); // Rollback nếu lỗi
+        } catch (Exception ex) {
+            System.out.println("rollback error: " + ex.getMessage());
         }
-        return false;
+        System.out.println("deleteRegistrationWithPayment: " + e.getMessage());
+    } finally {
+        try {
+            connection.setAutoCommit(true); // Reset lại auto commit
+        } catch (Exception e) {
+            System.out.println("setAutoCommit error: " + e.getMessage());
+        }
     }
+    return false;
+}
+
+    // Kiểm tra Runner đã có Registration đang Pending hay chưa
+public boolean hasPendingRegistration(int runnerID) {
+    try {
+        String sql = "SELECT COUNT(*) AS count FROM Registration WHERE RunnerID = ? AND PaymentStatus = 'Pending'";
+        
+        stm = connection.prepareStatement(sql);
+        stm.setInt(1, runnerID);
+        rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("count") > 0; // true nếu có pending
+        }
+    } catch (Exception e) {
+        System.out.println("hasPendingRegistration: " + e.getMessage());
+    }
+    return false;
+}
+
 }

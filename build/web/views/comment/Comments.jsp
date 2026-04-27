@@ -9,158 +9,89 @@
     <link rel="stylesheet" href="/ASS-Marathon/static/css/styles.css" />
     <style>
         body {
-            background-color: #f3f6fc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
+            background-color: #f5f5f5;
         }
 
-        header {
-            background: linear-gradient(90deg, #004aad, #007bff);
-            color: white;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Thanh menu */
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
         }
 
-        header .logo {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        header nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 25px;
-        }
-
-        header nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 14px;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
-
-        header nav ul li a:hover, 
-        header nav ul li a.active {
-            background: #ff6600;
-        }
-
-        main {
-            padding: 40px 20px;
-        }
-
-        .comment-box {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            text-align: center;
-            color: #004aad;
-            margin-bottom: 25px;
-        }
-
-        .comment {
-            background: #f9fbff;
-            border-left: 5px solid #004aad;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .comment:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .comment strong {
-            color: #004aad;
-            font-size: 1.05em;
-        }
-
-        .comment em {
+        .navbar a {
+            float: left;
             display: block;
-            color: gray;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-        }
-
-        form {
-            margin-top: 25px;
-            background: #f6f9ff;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #d9e3f5;
-        }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #004aad;
-            outline: none;
-        }
-
-        button {
-            background: linear-gradient(90deg, #004aad, #007bff);
             color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        button:hover {
-            background: #ff6600;
-            transform: translateY(-1px);
-        }
-
-        .error {
-            color: red;
             text-align: center;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        footer {
-            margin-top: 60px;
-            text-align: center;
-            padding: 15px 0;
-            background: #004aad;
-            color: white;
-            font-size: 14px;
-        }
-
-        footer a {
-            color: #ffcc80;
+            padding: 14px 20px;
             text-decoration: none;
         }
+
+        .navbar a:hover {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        /* Nội dung */
+    .container {
+    padding: 30px;
+    background: white;
+    margin: 40px auto;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+/* CSS nhà tài trợ */
+.sponsor-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.sponsor-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    padding: 15px;
+    width: 140px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.sponsor-card img {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.sponsor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.sponsor-card:hover img {
+    transform: scale(1.08);
+}
+
+.sponsor-card p {
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
     </style>
 </head>
 <body>
 
     <!-- HEADER -->
-      <header>
+     <header>
             <div class="logo">🏃‍♂️ Marathon System</div>
             <nav>
                 <ul>
@@ -168,14 +99,17 @@
                     <li><a href="Events">Các giải</a></li>
                     <li><a href="Comments">Bình luận</a></li>
                     <li><a href="About">Thông tin khác</a></li>
-                        <c:if test="${sessionScope.account.roleID == 1 }">
+                     <c:if test="${sessionScope.account.roleID == 1 }">
                         <li><a href="list">Quản lý giải chạy</a></li> 
                         </c:if>             
                         <c:if test="${sessionScope.account.roleID == 2 }">
                         <li><a href="list">Quản lý giải chạy</a></li> 
                         </c:if> 
                         <c:if test="${sessionScope.account.roleID == 1 }">
-                        <li><a href="accountManager">Quản lý runner</a></li> 
+                        <li><a href="accountManager">Quản lý Account</a></li> 
+                        </c:if>  
+                        <c:if test="${sessionScope.account.roleID == 2 }">
+                        <li><a href="accountRunner">Quản lý runner</a></li> 
                         </c:if>  
                          <c:if test="${sessionScope.account.roleID == 2 }">
                         <li><a href="staffManager">Duyệt đơn</a></li> 
@@ -188,7 +122,7 @@
                         
                 </ul>
             </nav>
-            <div class="auth-buttons">
+           <div class="auth-buttons">
                 <c:if test="${sessionScope.account != null}">
                     <span>👋 Xin chào, <b>${sessionScope.account.fullName}</b></span>
                     <a href="Logout" class="logout-btn">Đăng xuất</a>
@@ -203,47 +137,75 @@
 
     <!-- MAIN -->
     <main>
-        <div class="comment-box">
-            <h2>💬 Lời khuyên từ cộng đồng</h2>
+    <div class="comment-box">
+        <h2 style="text-align:center; color:#004aad; margin-bottom:25px;">💬 Lời khuyên từ cộng đồng</h2>
 
-            <c:choose>
-                <c:when test="${not empty advices}">
-                    <c:forEach var="ad" items="${advices}">
-                        <div class="comment">
-                            <strong>${ad.account.fullName}</strong>
-                            <em>${ad.createdAt}</em>
-                            <p><b>${ad.title}</b></p>
-                            <p>${ad.message}</p>
-                        </div>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <p style="text-align:center; color: gray;">Chưa có lời khuyên nào được đăng.</p>
-                </c:otherwise>
-            </c:choose>
+        <c:choose>
+            <c:when test="${not empty advices}">
+                <c:forEach var="ad" items="${advices}">
+                    <div class="comment" style="
+                        background:#f9f9ff;
+                        border-left:5px solid #004aad;
+                        padding:15px 20px;
+                        margin-bottom:20px;
+                        border-radius:8px;
+                        box-shadow:0 2px 5px rgba(0,0,0,0.05);
+                        transition: transform 0.2s ease;">
+                        <strong style="color:#004aad;">${ad.account.fullName}</strong>
+                        <em style="float:right; color:#777; font-size:13px;">${ad.createdAt}</em>
+                        <p style="margin-top:8px; font-weight:bold; color:#333;">${ad.title}</p>
+                        <p style="margin-top:5px; color:#555;">${ad.message}</p>
+                    </div>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <p style="text-align:center; color: gray;">Chưa có lời khuyên nào được đăng.</p>
+            </c:otherwise>
+        </c:choose>
 
-            <hr style="margin: 25px 0; border: none; border-top: 2px dashed #ccc;">
+        <hr style="margin: 25px 0; border: none; border-top: 2px dashed #ccc;">
 
-            <c:if test="${not empty sessionScope.account}">
-                <h3 style="color:#004aad;">📝 Gửi lời khuyên mới</h3>
-                <form action="Comments" method="post">
-                    <label for="title">Tiêu đề</label>
-                    <input type="text" id="title" name="title" placeholder="Nhập tiêu đề..." required>
-                    <label for="message">Nội dung</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Nhập nội dung..." required></textarea>
-                    <button type="submit">Đăng</button>
-                </form>
-            </c:if>
+        <c:if test="${not empty sessionScope.account}">
+            <h3 style="color:#004aad; margin-bottom:10px;">📝 Gửi lời khuyên mới</h3>
+            <form action="Comments" method="post" style="
+                background:#f0f6ff;
+                padding:20px;
+                border-radius:10px;
+                box-shadow:0 2px 8px rgba(0,0,0,0.05);
+            ">
+                <label for="title" style="font-weight:bold; color:#004aad;">Tiêu đề</label>
+                <input type="text" id="title" name="title" placeholder="Nhập tiêu đề..." required
+                    style="width:100%; padding:10px; margin:10px 0 15px 0; border:1px solid #ccc; border-radius:6px;">
 
-            <c:if test="${empty sessionScope.account}">
-                <p style="text-align:center; color:#004aad;">Vui lòng <a href="Login" style="color:#ff6600; font-weight:bold;">đăng nhập</a> để gửi lời khuyên.</p>
-            </c:if>
+                <label for="message" style="font-weight:bold; color:#004aad;">Nội dung</label>
+                <textarea id="message" name="message" rows="4" placeholder="Nhập nội dung..." required
+                    style="width:100%; padding:10px; margin:10px 0 15px 0; border:1px solid #ccc; border-radius:6px; resize: vertical;"></textarea>
 
-            <c:if test="${not empty error}">
-                <p class="error">${error}</p>
-            </c:if>
-        </div>
-    </main>
+                <button type="submit" style="
+                    background:#004aad;
+                    color:white;
+                    border:none;
+                    padding:10px 20px;
+                    border-radius:6px;
+                    cursor:pointer;
+                    font-weight:bold;
+                    transition: background 0.3s ease;">
+                    Đăng
+                </button>
+            </form>
+        </c:if>
+
+        <c:if test="${empty sessionScope.account}">
+            <p style="text-align:center; color:#004aad;">
+                Vui lòng <a href="Login" style="color:#ff6600; font-weight:bold;">đăng nhập</a> để gửi lời khuyên.
+            </p>
+        </c:if>
+
+        <c:if test="${not empty error}">
+            <p class="error" style="color:red; text-align:center; font-weight:bold;">${error}</p>
+        </c:if>
+    </div>
+</main>
 
     <!-- FOOTER -->
     <footer>

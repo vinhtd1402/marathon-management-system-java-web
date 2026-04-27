@@ -156,12 +156,25 @@
                 <li><a href="Events">Các giải</a></li>
                 <li><a href="Comments">Bình luận</a></li>
                 <li><a href="About">Thông tin khác</a></li>
-                <c:if test="${sessionScope.account.roleID == 1}">
-                    <li><a href="list">Quản lý giải chạy</a></li> 
-                </c:if>             
-                <c:if test="${sessionScope.account.roleID == 2}">
-                    <li><a href="list">Quản lý giải chạy</a></li> 
-                </c:if> 
+                  <c:if test="${sessionScope.account.roleID == 1 }">
+                        <li><a href="list">Quản lý giải chạy</a></li> 
+                        </c:if>             
+                        <c:if test="${sessionScope.account.roleID == 2 }">
+                        <li><a href="list">Quản lý giải chạy</a></li> 
+                        </c:if> 
+                        <c:if test="${sessionScope.account.roleID == 1 }">
+                        <li><a href="accountManager">Quản lý Account</a></li> 
+                        </c:if>  
+                        <c:if test="${sessionScope.account.roleID == 2 }">
+                        <li><a href="accountRunner">Quản lý runner</a></li> 
+                        </c:if>  
+                         <c:if test="${sessionScope.account.roleID == 2 }">
+                        <li><a href="staffManager">Duyệt đơn</a></li> 
+                        </c:if>  
+                        <c:if test="${sessionScope.account.roleID == 1 }">
+                        <li><a href="staffManager">Duyệt đơn</a></li> 
+                        </c:if> 
+                        
             </ul>
         </nav>
         <div class="auth-buttons">

@@ -246,6 +246,100 @@ public void deleteEvent(int eventId) {
     } catch (Exception e) {
     }
 }
+public List<MarathonEvent> searchEventsAdvanced(
+        String keyword, Integer typeId, String location,
+        java.sql.Date fromDate, java.sql.Date toDate,
+        Double minFee, Double maxFee,
+        Double minDistance, Double maxDistance) {
+    List<MarathonEvent> list = new ArrayList<>();
+    try {
+        StringBuilder sql = new StringBuilder("""
+            SELECT e.EventID, e.EventName, e.Location, e.StartDate, e.Fee, e.ImagePath,
+                   e.Description, e.HealthRequirement,
+                   s.SponsorID, s.SponsorName, s.ContactInfo, s.Image AS SponsorImage,
+                   t.TypeID, t.TypeName, t.Distance
+            FROM MarathonEvent e
+            JOIN Sponsor s ON e.SponsorID = s.SponsorID
+            JOIN MarathonType t ON e.TypeID = t.TypeID
+            WHERE 1=1
+        """);
+
+        List<Object> params = new ArrayList<>();
+
+        if (keyword != null && !keyword.isBlank()) {
+            sql.append(" AND (e.EventName LIKE ? OR e.Location LIKE ?) ");
+            params.add("%" + keyword.trim() + "%");
+            params.add("%" + keyword.trim() + "%");
+        }
+        if (location != null && !location.isBlank()) {
+            sql.append(" AND e.Location LIKE ? ");
+            params.add("%" + location.trim() + "%");
+        }
+        if (typeId != null) {
+            sql.append(" AND t.TypeID = ? ");
+            params.add(typeId);
+        }
+        if (fromDate != null) {
+            sql.append(" AND e.StartDate >= ? ");
+            params.add(fromDate);
+        }
+        if (toDate != null) {
+            sql.append(" AND e.StartDate <= ? ");
+            params.add(toDate);
+        }
+        if (minFee != null) {
+            sql.append(" AND e.Fee >= ? ");
+            params.add(minFee);
+        }
+        if (maxFee != null) {
+            sql.append(" AND e.Fee <= ? ");
+            params.add(maxFee);
+        }
+        if (minDistance != null) {
+            sql.append(" AND t.Distance >= ? ");
+            params.add(minDistance);
+        }
+        if (maxDistance != null) {
+            sql.append(" AND t.Distance <= ? ");
+            params.add(maxDistance);
+        }
+        sql.append(" ORDER BY e.StartDate ASC ");
+
+        PreparedStatement ps = connection.prepareStatement(sql.toString());
+        for (int i = 0; i < params.size(); i++) {
+            ps.setObject(i + 1, params.get(i));
+        }
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Sponsor sponsor = new Sponsor(
+                rs.getInt("SponsorID"),
+                rs.getString("SponsorName"),
+                rs.getString("ContactInfo"),
+                rs.getString("SponsorImage")
+            );
+            MarathonType type = new MarathonType(
+                rs.getInt("TypeID"),
+                rs.getString("TypeName"),
+                rs.getDouble("Distance")
+            );
+            MarathonEvent e = new MarathonEvent(
+                rs.getInt("EventID"),
+                rs.getString("EventName"),
+                rs.getString("Location"),
+                rs.getDate("StartDate"),
+                rs.getDouble("Fee"),
+                rs.getString("ImagePath"),
+                rs.getString("Description"),
+                rs.getString("HealthRequirement"),
+                sponsor, type
+            );
+            list.add(e);
+        }
+    } catch (Exception ex) {
+        System.out.println("searchEventsAdvanced: " + ex.getMessage());
+    }
+    return list;
+}
 
 
 }

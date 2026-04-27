@@ -56,6 +56,34 @@
         <servlet-name>AboutServlet</servlet-name>
         <servlet-class>controller.AboutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AccountRunnerController</servlet-name>
+        <servlet-class>controller.AccountRunnerController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddRunner</servlet-name>
+        <servlet-class>controller.AddRunner</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditRunner</servlet-name>
+        <servlet-class>controller.EditRunner</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteRunner</servlet-name>
+        <servlet-class>controller.DeleteRunner</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchRunner</servlet-name>
+        <servlet-class>controller.SearchRunner</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformationServlet</servlet-name>
+        <servlet-class>controller.InformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PublicEventsServlet</servlet-name>
+        <servlet-class>controller.PublicEventsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -111,5 +139,33 @@
     <servlet-mapping>
         <servlet-name>AboutServlet</servlet-name>
         <url-pattern>/About</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountRunnerController</servlet-name>
+        <url-pattern>/accountRunner</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddRunner</servlet-name>
+        <url-pattern>/addRunner</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditRunner</servlet-name>
+        <url-pattern>/editRunner</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRunner</servlet-name>
+        <url-pattern>/deleteRunner</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchRunner</servlet-name>
+        <url-pattern>/searchRunner</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationServlet</servlet-name>
+        <url-pattern>/infor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PublicEventsServlet</servlet-name>
+        <url-pattern>/Events</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="models.MarathonEvent" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
     MarathonEvent event = (MarathonEvent) request.getAttribute("event");
 %>
@@ -181,10 +182,16 @@
             <li><a href="About">Thông tin khác</a></li>
         </ul>
     </nav>
-    <div class="auth-buttons">
-        <a href="Login">Đăng nhập</a>
-        <a href="Signup">Đăng ký</a>
-    </div>
+     <div class="auth-buttons">
+                <c:if test="${sessionScope.account != null}">
+                   <a href="infor" > <span>👋 Xin chào, <b>${sessionScope.account.fullName}</b></span></a>
+                    <a href="Logout" class="logout-btn">Đăng xuất</a>
+                </c:if>
+                <c:if test="${sessionScope.account == null}">
+                    <a href="Login">Đăng nhập</a>
+                    <a href="Signup">Đăng ký</a>
+                </c:if>
+            </div>
 </header>
 
 <div class="container">
@@ -243,7 +250,25 @@
     <div class="right-panel">
         <div class="box countdown">
           
-            <a href="${pageContext.request.contextPath}/registerEvent?eventID=${event.eventID}" class="register-btn">Đăng ký ngay</a>
+            <%
+    java.time.LocalDate today = java.time.LocalDate.now();
+    java.time.LocalDate startDate = java.time.LocalDate.parse(event.getStartDate().toString());
+    boolean expired = startDate.isBefore(today);
+%>
+
+<c:choose>
+    <c:when test="<%= expired %>">
+        <a class="register-btn" style="background: gray; cursor: not-allowed; pointer-events: none;">
+            Đã hết hạn đăng ký
+        </a>
+    </c:when>
+    <c:otherwise>
+        <a href="${pageContext.request.contextPath}/registerEvent?eventID=${event.eventID}" class="register-btn">
+            Đăng ký ngay
+        </a>
+    </c:otherwise>
+</c:choose>
+
         </div>
 
         <div class="box">
