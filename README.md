@@ -21,3 +21,6 @@ A Java Web application for managing marathon events and runners.
 3. Setup SQL Server
 4. Run database.sql
 5. Run on Tomcat
+
+## Database Setup
+Run `DataBase_MarathonEvent.sql` in SQL Server before starting the application.
